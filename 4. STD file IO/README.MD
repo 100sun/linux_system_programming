@@ -30,7 +30,7 @@ setbuf(stdout, buf); // buffer of stdout = buf -> by line (_IOLBF)
 setbuf(stdout, NULL); // release buf (_IONBF)
 ```
 
-### OPEN & CLOSE
+### OPEN
 
 #### FILE* fopen(const char* pathname, mode_t mode); 
 
