@@ -1,2 +1,3 @@
 # LINUX SYSTEM PROGRAMMING
-2020 spring semester
+
+each folder has its own README.md
