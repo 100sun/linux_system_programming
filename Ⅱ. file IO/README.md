@@ -1,16 +1,12 @@
-# file I/O
+# Ⅱ. file I/O
 
 function(2)
 
 ## library
 
-### <sys/types.h>
+### <sys/stat.h> <sys/types.h>
 
-mode, whence ...
-
-### <sys/stat.h>
-
-stat : off_t, mode_t, time_t
+off_t, mode_t
 
 ### <fcntl.h>
 

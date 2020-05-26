@@ -16,10 +16,6 @@ mode_t <b>st_mode</b><br/>
 
 time_t <b>st_mtime</b><br/>
 
-### <fcntl.h>
-
-oflag
-
 ### <unistd.h>
 
 filedes
