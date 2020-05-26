@@ -5,11 +5,11 @@ function(3): <setjmp.h>
 
 ## EXIT
 
-#### <stdlib.h>
+##### <stdlib.h>
 
 ### void exit(int status); 
 
-#### <unistd.h>
+##### <unistd.h>
 
 ### void _exit(int status); 
 
@@ -23,7 +23,7 @@ _exit(0); // print nothing and forcibly termination (std IO buffer not flushed)
 
 ## GOTO
 
-#### <setjmp.h>
+##### <setjmp.h>
 
 env should be a global var ⊃ register var, local var
 
@@ -46,9 +46,9 @@ longjmp(env, 1);
 
 ## RETURN PID
 
-#### <unistd.h>
+##### <unistd.h>
 
-#### <sys/types.h>
+##### <sys/types.h>
 
 ``` 
 process_id = getpid();
@@ -69,7 +69,7 @@ effective_group_id = getegid();
 
 ## CREATE CHILD PROCESS
 
-#### <unistd.h>
+##### <unistd.h>
 
 ### pid_t fork(void); 
 

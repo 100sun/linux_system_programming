@@ -1,20 +1,10 @@
 # Ⅲ. directory I/O
 
-function(2)
+<dirent.h> : DIR
 
-## library
+## function(3)
 
-### <dirent.h>
-
-DIR
-
-## function(2)
-
-### int mkdir(const char* pathname, mode_t mode); 
-
-### int rmdir(const char* pathname); 
-
-<hr/>
+##### <sys/types.h>
 
 ### DIR *opendir(const char* name); 
 
@@ -30,6 +20,20 @@ closedir(dp);
 ```
 
 <hr/>
+
+## function(2)
+
+##### <sys/stat.h>
+
+##### <sys/types.h>
+
+### int mkdir(const char* pathname, mode_t mode); 
+
+<hr/>
+
+##### <unistd.h>
+
+### int rmdir(const char* pathname); 
 
 ### int chdir(const char* pathname); 
 

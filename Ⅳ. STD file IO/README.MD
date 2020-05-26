@@ -7,13 +7,7 @@ function(3)
 
 (except from [OPEN](#OPEN) and [setbuf](#BUFFER))
 
-## library
-
-### <stdio.h>
-
-FILE
-
-## function(3)
+## function(3) : <stdio.h>
 
 ### BUFFER
 
@@ -30,13 +24,24 @@ setbuf(stdout, buf); // buffer of stdout = buf -> by line (_IOLBF)
 setbuf(stdout, NULL); // release buf (_IONBF)
 ```
 
-### OPEN
+<hr/>
+
+### OFFSET
+
+``` 
+fseek(fp, 0, SEEK_END);
+fsize = ftell(fp);
+```
+
+<hr/>
+
+### I/O
 
 #### FILE* fopen(const char* pathname, mode_t mode); 
 
-#### FILE* freopen(const char* pathname, mode_t mode, FILE* fp); 
+##### FILE* fdopen(int fd, mode_t mode); 
 
-#### FILE* fdopen(int fd, mode_t mode); 
+#### FILE* freopen(const char* pathname, mode_t mode, FILE* fp); 
 
 #### FILE* fclose(FILE* fp); 
 
@@ -54,7 +59,7 @@ fclose(fp);
 
 #### int feof(FILE* fp); 
 
-<hr/>
+<hr/><hr/>
 
 ### char I/O 
 
@@ -123,13 +128,4 @@ print char* to stdout until '\n'<br/>
 while(!fgets(buf, BUF_SIZE, stdin) != NULL) // get \n
     if(fputs(buf, stdout) == EOF) // \n would be print 
         exit(1);
-```
-
-<hr/>
-
-### file attribute
-
-``` 
-fseek(fp, 0, SEEK_END);
-fsize = ftell(fp);
 ```

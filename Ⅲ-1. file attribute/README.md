@@ -4,30 +4,70 @@ function(2)
 
 ## library
 
-### <sys/stat.h> <sys/types.h>
+### 1.<sys/stat.h> 2.<sys/types.h>
 
-#### stat
+&emsp; &emsp; mode_t&emsp; &emsp; &emsp; <b>st_mode</b><br/>
 
-off_t <b>st_size</b><br/>
-mode_t <b>st_mode</b><br/>
+&emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; * S_IR(RWXU)<br/>
+&emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; * S_IF(MT), S_IS(DIR)
 
-* S_IR(RWXU)
-* S_IF(MT), S_IF(DIR)
+&emsp; &emsp; off_t&emsp; &emsp; &emsp; &emsp; <b>st_size</b><br/>
 
-time_t <b>st_mtime</b><br/>
+&emsp; &emsp; time_t&emsp; &emsp; &emsp; &emsp; <b>st_mtime</b><br/>
 
-### <unistd.h>
+### 3.<unistd.h>
 
 filedes
 
-## function(2)
+<hr/>
+
+## STAT
 
 ### int stat(const char *restrict pathname, struct stat *restrict buf); 
+
+1, 2, 3
 
 ``` 
 (statbuf.st_mode & S_IFMT) == S_IFREG; // mode & S_IFMT == S_IF~
 S_ISDIR(statbuf.st_mode); // S_IS~(mode)
 // ~ : REG, DIR, BLK, CHR, FIFO, SOCK, LNK
+```
+
+### mode_t umask(mode_t cmask); 
+
+1, 2
+
+``` 
+prev_cmask = umask(0066); // = 0 
+// if the mode was 0666, then it would change to 0600
+```
+
+### int utime(const char* pathname, const struct utimbuf *times); 
+
+2, <utime.h>
+
+``` 
+utime(fname, &time_buf); // st_atime -> actime, st_mtime -> modtime
+utime(fname, NULL); // st_atime -> current time, st_mtime -> current time
+``` 
+
+### int chmod(const char* pathname, mode_t mode); 
+
+1
+
+``` 
+statbuf.st_mode &= ~ (S_IXGRP | S_IXOTH);
+chmod(fname, statbuf.st_mode); // rwxrwxrwx => rwxrw-rw-
+```
+
+<hr/>
+
+## UNIXSTD
+
+### int chown(const char* pathname, uid_t owner, gid_t group); 
+
+``` 
+chown(fname, 501, 300); // change st_uid, st_gid
 ```
 
 ### int access(const char* pathname, int mode); 
@@ -37,38 +77,9 @@ access(fname, F_OK); // file existence
 access(fname, 1 | 2 | 4); // X W R
 ``` 
 
-### int utime(const char* pathname, const struct utimbuf *times);
-
-```
-
-utime(fname, &time_buf); // st_atime -> actime, st_mtime -> modtime
-utime(fname, NULL); // st_atime -> current time, st_mtime -> current time
-
-``` 
-
 <hr/>
 
-### mode_t umask(mode_t cmask); 
-
-``` 
-prev_cmask = umask(0066); // = 0 
-// if the mode was 0666, then it would change to 0600
-```
-
-### int chmod(const char* pathname, mode_t mode); 
-
-``` 
-statbuf.st_mode &= ~ (S_IXGRP | S_IXOTH);
-chmod(fname, statbuf.st_mode); // rwxrwxrwx => rwxrw-rw-
-```
-
-### int chown(const char* pathname, uid_t owner, gid_t group); 
-
-``` 
-chown(fname, 501, 300); // change st_uid, st_gid
-```
-
-<hr/>
+## LINK
 
 ### int link(const char* existingpath, const char* newpath); 
 
@@ -83,7 +94,11 @@ symlink(fname, symlink_fname); // make a new symlink pointing FileTable of "fnam
 
 ### int remove(const char* pathname); 
 
+remove(3) ⊂ <stdio.h>
+
 ### int rename(const char* oldname, const char *newname); 
+
+rename(2) ⊂ <stdio.h>
 
 ``` 
 unlink(fname); // link count --;
