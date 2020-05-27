@@ -280,6 +280,8 @@ function(3)
 
 #### void setbuf(FILE *fp, char* buf); 
 
+##### int setvbuf(FILE *fp, char* buf, int mode, size_t size); 
+
 set buffer of fp
 
 #### int fflush(FILE *fp); 
@@ -289,6 +291,7 @@ flush a buffer of fp and print it immediately to fp
 ``` 
 setbuf(stdout, buf); // buffer of stdout = buf -> by line (_IOLBF)
 setbuf(stdout, NULL); // release buf (_IONBF)
+setvbuf(fp, buf, _IOFBF, size); // _IOFBF : default mode
 ```
 
 <hr/>

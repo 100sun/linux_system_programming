@@ -6,9 +6,9 @@
 
 ##### <sys/types.h>
 
-### DIR *opendir(const char* name); 
+### DIR* opendir(const char* name); 
 
-### struct dirent *readdir(DIR *dp); 
+### struct dirent* readdir(DIR *dp); 
 
 ### int closedir(DIR *dp); 
 

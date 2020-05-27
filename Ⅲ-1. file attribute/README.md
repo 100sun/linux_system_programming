@@ -38,8 +38,8 @@ S_ISDIR(statbuf.st_mode); // S_IS~(mode)
 1, 2
 
 ``` 
-prev_cmask = umask(0066); // = 0 
-// if the mode was 0666, then it would change to 0600
+prev_cmask = umask(0066);  
+// if the mode was 0666, then the mask would change to 0600, and also it would return 0666.
 ```
 
 ### int utime(const char* pathname, const struct utimbuf *times); 
@@ -94,6 +94,7 @@ symlink(fname, symlink_fname); // make a new symlink pointing FileTable of "fnam
 
 ### int remove(const char* pathname); 
 
+: can access directory not only in root user unlink "unlink(2)"<br/>
 remove(3) ⊂ <stdio.h>
 
 ### int rename(const char* oldname, const char *newname); 

@@ -13,7 +13,9 @@ function(3)
 
 #### void setbuf(FILE *fp, char* buf); 
 
-set buffer of fp
+##### int setvbuf(FILE *fp, char* buf, int mode, size_t size); 
+
+set buffer of fppowe
 
 #### int fflush(FILE *fp); 
 

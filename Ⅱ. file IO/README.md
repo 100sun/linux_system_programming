@@ -15,11 +15,7 @@ filedes
 
 #### 2. <fcntl.h>
 
-oflag
-
-#### 3. <unistd.h>
-
-filedes
+oflag, whence
 
 <hr/>
 
@@ -27,15 +23,15 @@ filedes
 
 ### int open(const char* pathname, int oflag, mode_t mode); 
 
-1, 2, 3
+0, 1, 2
 
 ### int close(int filedes); 
 
-3
+0
 
 ### int creat(const char* pathname, mode_t mode); 
 
-1, 2, 3
+0, 1, 2
 
 ``` 
 fd = open(filename, O_RDONLY);
@@ -52,7 +48,7 @@ fd = creat(filename, 0666);
 
 ### off_t lseek(int filedes, off_t offset, int whence);
 
-0, 2, 4
+0, 2
 
 ``` 
 lseek(fd,(off_t)0, SEEK_SET); // move the offset of the file to the beginning of the file
@@ -60,7 +56,7 @@ lseek(fd, (off_t)150000, SEEK_CUR); // move the offset of the file
 ```
 
 ``` 
-fd = open(filename, O_RDWR | O_APPEND, S_IRWXU | S_IRUSR);
+fd = open(filename, O_RDWR | O_APPEND, S_IRWXU | S_IRUSR); // to write appending the file
 lseek(fd, (off_t)0, SEEK_END); // to write appending the file
 ```
 
@@ -105,8 +101,8 @@ while((length = read(fd1, (char*)&record, sizeof(record)) > 0)
 
 ``` 
 fd2 = dup(fd1); // copy fd1
-dup2(fd, 1); // = 1 
-// 1(stdout) <==> fd
-newfd = dup2(1, 4); // = 4 
-// 4 <==> 1(stdout)
+dup2(fd, 1); // return 1 
+// 1(stdout) => fd
+newfd = dup2(1, 4); // return 4 
+// 4 => 1(stdout)
 ```
