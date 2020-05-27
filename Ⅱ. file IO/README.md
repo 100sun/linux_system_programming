@@ -38,7 +38,7 @@ fd = open(filename, O_RDONLY);
 close(fd);
 ``` 
 ``` 
-fd = open(filename, O_RDWR | O_CREAT | O_EXCL | O_TRUNC, 0666);
+fd = open(filename, O_RDWR | O_CREAT | O_TRUNC, 0666);
 fd = creat(filename, 0666);
 ``` 
 
@@ -97,6 +97,7 @@ while((length = read(fd1, (char*)&record, sizeof(record)) > 0)
 
 ### int dup2(int filedes, int filedes2); 
 
+: this is like redirection of printing stream of the file 
 0
 
 ``` 

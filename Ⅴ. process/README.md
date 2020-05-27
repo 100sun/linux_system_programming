@@ -36,8 +36,8 @@ called by longjmp : return !0
 
 ``` 
 if(setjmp(env) != 0){
+    // : when called by longjmp (return value == 1(the value of "val" param from longjmp))
     // register var, local var would be same but volatile var would be changed.
-    // when called by longjmp, return value would be 1.
 }
 longjmp(env, 1);
 ```

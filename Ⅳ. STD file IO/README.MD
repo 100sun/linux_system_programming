@@ -24,6 +24,7 @@ flush a buffer of fp and print it immediately to fp
 ``` 
 setbuf(stdout, buf); // buffer of stdout = buf -> by line (_IOLBF)
 setbuf(stdout, NULL); // release buf (_IONBF)
+setvbuf(fp, buf);
 ```
 
 <hr/>
@@ -65,13 +66,13 @@ fclose(fp);
 
 ### char I/O 
 
-#### int getc(int c, FILE *fp); 
+#### int fgetc(FILE *fp); 
 
-(= fgetc) get c from fp
+(= getc) get character from fp
 
-#### int getchar(int c); 
+#### int getchar(); 
 
-get c from stdin
+get character from stdin
 
 #### int ungetc(int c, FILE *fp); 
 
@@ -79,9 +80,9 @@ push c back to stream
 
 <hr/><hr/>
 
-#### int putc(int c, FILE *fp); 
+#### int fputc(int c, FILE *fp); 
 
-(= fputc) print c to fp
+(= putc) print c to fp
 
 #### int putchar(int c); 
 
@@ -106,12 +107,12 @@ while(!feof(fp)){
 
 #### int fgets(char* buf, int n, FILE *fp); 
 
-get char* from fp until '\n'<br/>
+get at most n-1 char* from fp and stores them into buf until '\n'<br/>
 (include \n)
 
 #### int gets(char* buf); 
 
-get char* from stdin until '\n'<br/>
+get char* from stdin and stores them into buf until '\n'<br/>
 (exclude \n)
 
 <hr/><hr/>
@@ -131,3 +132,16 @@ while(!fgets(buf, BUF_SIZE, stdin) != NULL) // get \n
     if(fputs(buf, stdout) == EOF) // \n would be print 
         exit(1);
 ```
+
+<hr/>
+
+### binaray I/O
+
+#### size_t fread(&emsp; &emsp; void* ptr, size_t, size_t nmemb, FILE* fp); 
+
+#### size_t fwrite(const void* ptr, size_t, size_t nmemb, FILE* fp); 
+
+```
+fwrite(&mystruct, sizeof(struct mystruct), 1, fp); 
+fread(&twostructs, sizeof(struct mystruct), 2, fp); // get 2*sizeof(mystruct) bytes and store the two items at ptr 
+``` 
