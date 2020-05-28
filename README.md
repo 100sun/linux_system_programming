@@ -9,7 +9,7 @@ each folder has its own README.md
 sth similar open() : require "mode" <br/>
 sth similar get() : require "buf"
 
-## Ⅱ. [file IO](https://github.com/100sun/linux_system_programming/tree/master/%E2%85%A1.%20file%20IO)
+## [Ⅱ. file IO](https://github.com/100sun/linux_system_programming/tree/master/%E2%85%A1.%20file%20IO)
 
 ### subtitles
 
