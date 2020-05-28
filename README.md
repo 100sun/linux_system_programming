@@ -9,7 +9,7 @@ each folder has its own README.md
 sth similar open() : require "mode" <br/>
 sth similar get() : require "buf"
 
-## Ⅱ. file IO
+## Ⅱ. [file IO](https://github.com/100sun/linux_system_programming/tree/master/%E2%85%A1.%20file%20IO)
 
 ### subtitles
 
@@ -24,7 +24,7 @@ fildes
 open, close, creat | lseek | read, write | dup, dup2
 <hr>
 
-## [Ⅲ-1. file attribute]https://github.com/100sun/linux_system_programming/tree/master/%E2%85%A1.%20file%20IO
+## [Ⅲ-1. file attribute](https://github.com/100sun/linux_system_programming/tree/master/%E2%85%A2-1.%20file%20attribute)
 
 ### subtitles
 
@@ -39,7 +39,7 @@ stat, utimebuf
 stat, umask, utime, chmod | chown, access | link, unlink, symlink, remove, rename
 <hr>
 
-## Ⅲ-2. directory IO
+## [Ⅲ-2. directory IO](https://github.com/100sun/linux_system_programming/tree/master/%E2%85%A2-2.%20directory%20IO)
 
 ### subtitles
 
@@ -58,7 +58,7 @@ DIR, dirent
 opendir, readdir, closedir | mkdir, rmdir, chdir, getcwd
 <hr>
 
-## Ⅳ. STD file IO
+## [Ⅳ. STD file IO](https://github.com/100sun/linux_system_programming/tree/master/%E2%85%A3.%20STD%20file%20IO)
 
 ### library
 
@@ -77,7 +77,7 @@ buffer, offset, error, file/char/char*/bin IO
 setbuf, setvbuf, fseek, ftell | fopen, fdopen, freopen, fclose | ferror, feof | fgetc, getchar, ungetc, fputc, putchar | fgets, gets, fputs, puts | fread, fwrite
 <hr>
 
-## Ⅴ. process
+## [Ⅴ. process](https://github.com/100sun/linux_system_programming/tree/master/%E2%85%A4.%20process)
 
 ### subtitles
 
