@@ -1,13 +1,19 @@
 # Ⅳ standard file I/O
 
-function(3)
+## library
+
+<stdio.h>
+
+## key
+
+FILE 
+
+## function(3)
 
 * success -> return 0
 * fail -> return EOF => [ERROR](#ERROR)
 
 (except from [OPEN](#OPEN) and [setbuf](#BUFFER))
-
-## function(3) : <stdio.h>
 
 ### BUFFER
 
@@ -22,9 +28,14 @@ set buffer of fppowe
 flush a buffer of fp and print it immediately to fp
 
 ``` 
-setbuf(stdout, buf); // buffer of stdout = buf -> by line (_IOLBF)
+setbuf(fp, buf); // default : _IOFBF
 setbuf(stdout, NULL); // release buf (_IONBF)
-setvbuf(fp, buf, size);
+```
+
+``` 
+if(isatty(fd)) 
+		mode = _IOLBF;
+setvbuf(fp, buf, mode, size);
 ```
 
 <hr/>
@@ -49,8 +60,9 @@ fsize = ftell(fp);
 #### FILE* fclose(FILE* fp); 
 
 ``` 
-fp = fopen(fname, "w+"); // O_RDWR | O_CREAT | O_TRUNC
-freopen(fname, "a+", fp); // O_RDWR | O_CREAT | O_APPEND
+newfp = fopen(fname, "w+"); // O_RDWR | O_CREAT | O_TRUNC
+updatingfp = fopen(fname, "a+"); // O_RDWR | O_CREAT | O_APPEND
+originalfp = freopen(fname, "w", stdout); // write in stdout -> fname
 fclose(fp);
 ```
 
@@ -133,6 +145,11 @@ while(!fgets(buf, BUF_SIZE, stdin) != NULL) // get \n
         exit(1);
 ```
 
+``` 
+while((character = fgetc(fp)) != EOF && isdigit(character)) // => number
+    number = 10 * number + character - 48; // abstract the number 0 (48 in ASCII code)
+``` 
+
 <hr/>
 
 ### binaray I/O
@@ -141,7 +158,16 @@ while(!fgets(buf, BUF_SIZE, stdin) != NULL) // get \n
 
 #### size_t fwrite(const void* ptr, size_t, size_t nmemb, FILE* fp); 
 
-```
+``` 
 fwrite(&mystruct, sizeof(struct mystruct), 1, fp); 
 fread(&twostructs, sizeof(struct mystruct), 2, fp); // get 2*sizeof(mystruct) bytes and store the two items at ptr 
 ``` 
+
+### format I/O
+
+```
+
+scanf("%[^\n]", tmp); 
+printf("%0X "/%02hhX"/ \n", *p, *p); 
+// %[필드너비][길이 수정자][변환형식]
+```

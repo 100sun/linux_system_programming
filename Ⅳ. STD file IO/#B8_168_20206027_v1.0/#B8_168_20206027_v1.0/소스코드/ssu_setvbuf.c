@@ -45,7 +45,7 @@ void ssu_setbuf(FILE* fp, char* buf){
 
 	fd = fileno(fp);
 
-	if(isatty(fd)) // if fd is a terminal
+	if(isatty(fd)) // if fd is a tty(terminal)
 		mode = _IOLBF;
 	else // not a terminal
 		mode = _IOFBF;

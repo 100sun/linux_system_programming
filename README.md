@@ -47,7 +47,11 @@ function(2), function(3)
 
 ### key
 
-DIR
+DIR, dirent
+
+### library
+
+<dirent.h>
 
 ### function
 
@@ -56,13 +60,17 @@ opendir, readdir, closedir | mkdir, rmdir, chdir, getcwd
 
 ## Ⅳ. STD file IO
 
-### subtitles
+### library
 
-buffer, offset, error, file/char/char*/bin IO  
+<stdio.h>
 
 ### key
 
 FILE 
+
+### subtitles
+
+buffer, offset, error, file/char/char*/bin IO  
 
 ### function
 

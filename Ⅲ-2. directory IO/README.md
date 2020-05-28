@@ -1,6 +1,12 @@
 # Ⅲ. directory I/O
 
-<dirent.h> : DIR
+## key
+
+### DIR
+
+### dirent
+
+d_name, d_ino
 
 ## function(3)
 
@@ -13,10 +19,17 @@
 ### int closedir(DIR *dp); 
 
 ``` 
-DIR* dp = opendir(dname);
+DIR* dirp = opendir(dname);
 struct dirent *dentry = readdir(dp);
 // dentry->d_name == dname
 closedir(dp);
+```
+
+``` 
+while((dentry = readdir(dirp)) != NULL){
+	if(dentry->d_ino == 0)
+		continue;
+	memcpy(filename, dentry->d_name, DIRECTORY_SIZE);
 ```
 
 <hr/>

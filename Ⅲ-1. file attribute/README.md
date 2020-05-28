@@ -2,22 +2,30 @@
 
 function(2)
 
-## library
+## key
 
-### 1.<sys/stat.h> 2.<sys/types.h>
+### stat
 
 &emsp; &emsp; mode_t&emsp; &emsp; &emsp; <b>st_mode</b><br/>
 
 &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; * S_IR(RWXU)<br/>
 &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; * S_IF(MT), S_IS(DIR)
 
+##### |= (on) &=~ (off) ^= (mask)
+
 &emsp; &emsp; off_t&emsp; &emsp; &emsp; &emsp; <b>st_size</b><br/>
 
 &emsp; &emsp; time_t&emsp; &emsp; &emsp; &emsp; <b>st_mtime</b><br/>
 
-### 3.<unistd.h>
+### utimebuf
 
-filedes
+actime, modtime
+
+## library
+
+### 1.<sys/stat.h> 2.<sys/types.h>
+
+### 3.<unistd.h>
 
 <hr/>
 
@@ -25,10 +33,20 @@ filedes
 
 ### int stat(const char *restrict pathname, struct stat *restrict buf); 
 
+### int lstat(const char *restrict pathname, struct stat *restrict buf); 
+
+(== stat) except that if pathname is a symbolic link, then it returns information about the link itself.
+
 1, 2, 3
 
 ``` 
-stat(argv[1], statbuf);
+stat(argv[1], &statbuf);
+size = statbuf.st_size;
+intertime = statbuf.st_mtime;
+```
+
+``` 
+lstat(argv[1], &statbuf);
 (statbuf.st_mode & S_IFMT) == S_IFREG; // mode & S_IFMT == S_IF~
 S_ISDIR(statbuf.st_mode); // S_IS~(mode)
 // ~ : REG, DIR, BLK, CHR, FIFO, SOCK, LNK
