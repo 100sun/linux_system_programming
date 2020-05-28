@@ -24,7 +24,7 @@ fildes
 open, close, creat | lseek | read, write | dup, dup2
 <hr>
 
-## Ⅲ-1. file attribute
+## [Ⅲ-1. file attribute]https://github.com/100sun/linux_system_programming/tree/master/%E2%85%A1.%20file%20IO
 
 ### subtitles
 
