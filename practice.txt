@@ -1,0 +1,16 @@
+getcwd(buf, size)
+line buf : setbuf(stdout, buf);
+release buf : setbuf(stdout, buf, null)
+fgets(fp, buf, size)
+gets(buf, size);
+fputs(fp, buf)
+puts(buf);
+fread(&test1, sizeof(struct), 1);
+fwrite
+
+(!feof(fp))
+ 	fputc(c, stdout);
+	if(ferror(fp))
+		clearerr(fp);
+
+(fread()!=null)

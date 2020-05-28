@@ -28,6 +28,7 @@ filedes
 1, 2, 3
 
 ``` 
+stat(argv[1], statbuf);
 (statbuf.st_mode & S_IFMT) == S_IFREG; // mode & S_IFMT == S_IF~
 S_ISDIR(statbuf.st_mode); // S_IS~(mode)
 // ~ : REG, DIR, BLK, CHR, FIFO, SOCK, LNK

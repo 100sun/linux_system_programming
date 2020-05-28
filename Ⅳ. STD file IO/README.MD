@@ -24,7 +24,7 @@ flush a buffer of fp and print it immediately to fp
 ``` 
 setbuf(stdout, buf); // buffer of stdout = buf -> by line (_IOLBF)
 setbuf(stdout, NULL); // release buf (_IONBF)
-setvbuf(fp, buf);
+setvbuf(fp, buf, size);
 ```
 
 <hr/>
@@ -117,12 +117,12 @@ get char* from stdin and stores them into buf until '\n'<br/>
 
 <hr/><hr/>
 
-#### int fputs(int c, FILE *fp); 
+#### int fputs(const char* str, FILE *fp); 
 
 print char* to fp until '\n'<br/>
 (exclude \n)
 
-#### int puts(int c); 
+#### int puts(const char* str); 
 
 print char* to stdout until '\n'<br/>
 (include \n)
