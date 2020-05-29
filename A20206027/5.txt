@@ -1,0 +1,5 @@
+5-3:umask(0);
+5-1:creat(fname1, RW_MODE)
+5-2:umask(0066)
+5-4:creat(fname2, NULL)
+

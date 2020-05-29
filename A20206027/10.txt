@@ -1,0 +1,2 @@
+10-1:setbuf(stdout, buf)
+10-2:setbuf(stdout, NULL)

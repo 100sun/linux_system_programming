@@ -1,0 +1,5 @@
+4-2:creat(fname, 0644)
+4-3:write(fd, buf1, 12)
+4-1:lseek(fd, (off_t)15000, SEEK_SET);
+4-4:write(fd, buf2, 12) 
+

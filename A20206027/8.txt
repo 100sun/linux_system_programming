@@ -1,0 +1,6 @@
+8-5:(dirp = opendir(fname, 0666))
+8-2:chdir(fname)
+8-4:(dentry = readdir(dirp))
+8-3:dentry->d_ino
+8-1:dentry->d_name
+

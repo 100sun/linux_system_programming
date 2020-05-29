@@ -1,4 +1,4 @@
-# Ⅲ. file attribute
+# Ⅲ-1. file attribute
 
 function(2)
 
@@ -7,6 +7,8 @@ function(2)
 ### stat
 
 &emsp; &emsp; mode_t&emsp; &emsp; &emsp; <b>st_mode</b><br/>
+
+&emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; * S_I(RWX)(USR/GRP/OTH)
 
 &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; * S_IR(RWXU)<br/>
 &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; * S_IF(MT), S_IS(DIR)
@@ -66,7 +68,7 @@ prev_cmask = umask(0066);
 2, <utime.h>
 
 ``` 
-utime(fname, &time_buf); // st_atime -> actime, st_mtime -> modtime
+utime(fname, &time_buf); // st_atime(when open, or access) -> actime, st_mtime(modified) -> modtime
 utime(fname, NULL); // st_atime -> current time, st_mtime -> current time
 ``` 
 

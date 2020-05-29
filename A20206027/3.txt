@@ -1,0 +1,5 @@
+3-2:mode=_IOLBF
+3-5:mode=_IONBF
+3-1:size = 0
+3-3:mode=_IONBF
+3-4:setbuf(buf, fp);

@@ -11,7 +11,7 @@ FILE
 ## function(3)
 
 * success -> return 0
-* fail -> return EOF => [ERROR](#ERROR)
+* error or EOF -> return EOF(c) or NULL(s) => [ERROR](#ERROR) to check if it is error or EOR <br/>
 
 (except from [OPEN](#OPEN) and [setbuf](#BUFFER))
 
@@ -45,6 +45,7 @@ setvbuf(fp, buf, mode, size);
 ``` 
 fseek(fp, 0, SEEK_END);
 fsize = ftell(fp);
+rewind(fp); // == fseek(fp, 0, SEEK_SET);
 ```
 
 <hr/>

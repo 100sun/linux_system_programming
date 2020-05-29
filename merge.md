@@ -15,11 +15,7 @@ filedes
 
 #### 2. <fcntl.h>
 
-oflag
-
-#### 3. <unistd.h>
-
-filedes
+oflag, whence
 
 <hr/>
 
@@ -27,22 +23,22 @@ filedes
 
 ### int open(const char* pathname, int oflag, mode_t mode); 
 
-1, 2, 3
+0, 1, 2
 
 ### int close(int filedes); 
 
-3
+0
 
 ### int creat(const char* pathname, mode_t mode); 
 
-1, 2, 3
+0, 1, 2
 
 ``` 
 fd = open(filename, O_RDONLY);
 close(fd);
 ``` 
 ``` 
-fd = open(filename, O_RDWR | O_CREAT | O_EXCL | O_TRUNC, 0666);
+fd = open(filename, O_RDWR | O_CREAT | O_TRUNC, 0666);
 fd = creat(filename, 0666);
 ``` 
 
@@ -52,7 +48,7 @@ fd = creat(filename, 0666);
 
 ### off_t lseek(int filedes, off_t offset, int whence);
 
-0, 2, 4
+0, 2
 
 ``` 
 lseek(fd,(off_t)0, SEEK_SET); // move the offset of the file to the beginning of the file
@@ -60,7 +56,7 @@ lseek(fd, (off_t)150000, SEEK_CUR); // move the offset of the file
 ```
 
 ``` 
-fd = open(filename, O_RDWR | O_APPEND, S_IRWXU | S_IRUSR);
+fd = open(filename, O_RDWR | O_APPEND, S_IRWXU | S_IRUSR); // to write appending the file
 lseek(fd, (off_t)0, SEEK_END); // to write appending the file
 ```
 
@@ -101,36 +97,47 @@ while((length = read(fd1, (char*)&record, sizeof(record)) > 0)
 
 ### int dup2(int filedes, int filedes2); 
 
+: this is like redirection of printing stream of the file 
 0
 
 ``` 
 fd2 = dup(fd1); // copy fd1
-dup2(fd, 1); // = 1 
-// 1(stdout) <==> fd
-newfd = dup2(1, 4); // = 4 
-// 4 <==> 1(stdout)
+dup2(fd, 1); // return 1 
+// 1(stdout) => fd
+newfd = dup2(1, 4); // return 4 
+// 4 => 1(stdout)
 ```
 
-# Ⅲ. file attribute
+# Ⅲ-1. file attribute
 
 function(2)
 
-## library
+## key
 
-### 1.<sys/stat.h> 2.<sys/types.h>
+### stat
 
 &emsp; &emsp; mode_t&emsp; &emsp; &emsp; <b>st_mode</b><br/>
 
+&emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; * S_I(RWX)(USR/GRP/OTH)
+
 &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; * S_IR(RWXU)<br/>
 &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; &emsp; * S_IF(MT), S_IS(DIR)
+
+##### |= (on) &=~ (off) ^= (mask)
 
 &emsp; &emsp; off_t&emsp; &emsp; &emsp; &emsp; <b>st_size</b><br/>
 
 &emsp; &emsp; time_t&emsp; &emsp; &emsp; &emsp; <b>st_mtime</b><br/>
 
-### 3.<unistd.h>
+### utimebuf
 
-filedes
+actime, modtime
+
+## library
+
+### 1.<sys/stat.h> 2.<sys/types.h>
+
+### 3.<unistd.h>
 
 <hr/>
 
@@ -138,9 +145,20 @@ filedes
 
 ### int stat(const char *restrict pathname, struct stat *restrict buf); 
 
+### int lstat(const char *restrict pathname, struct stat *restrict buf); 
+
+(== stat) except that if pathname is a symbolic link, then it returns information about the link itself.
+
 1, 2, 3
 
 ``` 
+stat(argv[1], &statbuf);
+size = statbuf.st_size;
+intertime = statbuf.st_mtime;
+```
+
+``` 
+lstat(argv[1], &statbuf);
 (statbuf.st_mode & S_IFMT) == S_IFREG; // mode & S_IFMT == S_IF~
 S_ISDIR(statbuf.st_mode); // S_IS~(mode)
 // ~ : REG, DIR, BLK, CHR, FIFO, SOCK, LNK
@@ -151,8 +169,8 @@ S_ISDIR(statbuf.st_mode); // S_IS~(mode)
 1, 2
 
 ``` 
-prev_cmask = umask(0066); // = 0 
-// if the mode was 0666, then it would change to 0600
+prev_cmask = umask(0066);  
+// if the mode was 0666, then the mask would change to 0600, and also it would return 0666.
 ```
 
 ### int utime(const char* pathname, const struct utimbuf *times); 
@@ -160,7 +178,7 @@ prev_cmask = umask(0066); // = 0
 2, <utime.h>
 
 ``` 
-utime(fname, &time_buf); // st_atime -> actime, st_mtime -> modtime
+utime(fname, &time_buf); // st_atime(when open, or access) -> actime, st_mtime(modified) -> modtime
 utime(fname, NULL); // st_atime -> current time, st_mtime -> current time
 ``` 
 
@@ -207,6 +225,7 @@ symlink(fname, symlink_fname); // make a new symlink pointing FileTable of "fnam
 
 ### int remove(const char* pathname); 
 
+: can access directory not only in root user unlink "unlink(2)"<br/>
 remove(3) ⊂ <stdio.h>
 
 ### int rename(const char* oldname, const char *newname); 
@@ -221,23 +240,38 @@ rename(hardlink_fname, fname);
 
 ```
 
-# Ⅲ. directory I/O
+# Ⅲ-2. directory I/O
 
-## function(3) : <dirent.h>
+## key
+
+### DIR
+
+### dirent
+
+d_name, d_ino
+
+## function(3)
 
 ##### <sys/types.h>
 
-### DIR *opendir(const char* name); 
+### DIR* opendir(const char* name); 
 
-### struct dirent *readdir(DIR *dp); 
+### struct dirent* readdir(DIR *dp); 
 
 ### int closedir(DIR *dp); 
 
 ``` 
-DIR* dp = opendir(dname);
+DIR* dirp = opendir(dname);
 struct dirent *dentry = readdir(dp);
 // dentry->d_name == dname
 closedir(dp);
+```
+
+``` 
+while((dentry = readdir(dirp)) != NULL){
+	if(dentry->d_ino == 0)
+		continue;
+	memcpy(filename, dentry->d_name, DIRECTORY_SIZE);
 ```
 
 <hr/>
@@ -267,14 +301,20 @@ getcwd(cwd, PATH_MAX); // cwd == "/etc"
 
 # Ⅳ standard file I/O
 
-function(3)
+## library
+
+<stdio.h>
+
+## key
+
+FILE 
+
+## function(3)
 
 * success -> return 0
-* fail -> return EOF => [ERROR](#ERROR)
+* error or EOF -> return EOF(c) or NULL(s) => [ERROR](#ERROR) to check if it is error or EOR <br/>
 
 (except from [OPEN](#OPEN) and [setbuf](#BUFFER))
-
-## function(3) : <stdio.h>
 
 ### BUFFER
 
@@ -282,16 +322,21 @@ function(3)
 
 ##### int setvbuf(FILE *fp, char* buf, int mode, size_t size); 
 
-set buffer of fp
+set buffer of fppowe
 
 #### int fflush(FILE *fp); 
 
 flush a buffer of fp and print it immediately to fp
 
 ``` 
-setbuf(stdout, buf); // buffer of stdout = buf -> by line (_IOLBF)
+setbuf(fp, buf); // default : _IOFBF
 setbuf(stdout, NULL); // release buf (_IONBF)
-setvbuf(fp, buf, _IOFBF, size); // _IOFBF : default mode
+```
+
+``` 
+if(isatty(fd)) 
+		mode = _IOLBF;
+setvbuf(fp, buf, mode, size);
 ```
 
 <hr/>
@@ -301,6 +346,7 @@ setvbuf(fp, buf, _IOFBF, size); // _IOFBF : default mode
 ``` 
 fseek(fp, 0, SEEK_END);
 fsize = ftell(fp);
+rewind(fp); // == fseek(fp, 0, SEEK_SET);
 ```
 
 <hr/>
@@ -316,8 +362,9 @@ fsize = ftell(fp);
 #### FILE* fclose(FILE* fp); 
 
 ``` 
-fp = fopen(fname, "w+"); // O_RDWR | O_CREAT | O_TRUNC
-freopen(fname, "a+", fp); // O_RDWR | O_CREAT | O_APPEND
+newfp = fopen(fname, "w+"); // O_RDWR | O_CREAT | O_TRUNC
+updatingfp = fopen(fname, "a+"); // O_RDWR | O_CREAT | O_APPEND
+originalfp = freopen(fname, "w", stdout); // write in stdout -> fname
 fclose(fp);
 ```
 
@@ -333,13 +380,13 @@ fclose(fp);
 
 ### char I/O 
 
-#### int getc(int c, FILE *fp); 
+#### int fgetc(FILE *fp); 
 
-(= fgetc) get c from fp
+(= getc) get character from fp
 
-#### int getchar(int c); 
+#### int getchar(); 
 
-get c from stdin
+get character from stdin
 
 #### int ungetc(int c, FILE *fp); 
 
@@ -347,9 +394,9 @@ push c back to stream
 
 <hr/><hr/>
 
-#### int putc(int c, FILE *fp); 
+#### int fputc(int c, FILE *fp); 
 
-(= fputc) print c to fp
+(= putc) print c to fp
 
 #### int putchar(int c); 
 
@@ -374,30 +421,160 @@ while(!feof(fp)){
 
 #### int fgets(char* buf, int n, FILE *fp); 
 
-get char* from fp until '\n'<br/>
+get at most n-1 char* from fp and stores them into buf until '\n'<br/>
 (include \n)
 
 #### int gets(char* buf); 
 
-get char* from stdin until '\n'<br/>
+get char* from stdin and stores them into buf until '\n'<br/>
 (exclude \n)
 
 <hr/><hr/>
 
-#### int fputs(int c, FILE *fp); 
+#### int fputs(const char* str, FILE *fp); 
 
 print char* to fp until '\n'<br/>
 (exclude \n)
 
-#### int puts(int c); 
+#### int puts(const char* str); 
 
 print char* to stdout until '\n'<br/>
 (include \n)
-
-<hr/><hr/>
 
 ``` 
 while(!fgets(buf, BUF_SIZE, stdin) != NULL) // get \n
     if(fputs(buf, stdout) == EOF) // \n would be print 
         exit(1);
 ```
+
+``` 
+while((character = fgetc(fp)) != EOF && isdigit(character)) // => number
+    number = 10 * number + character - 48; // abstract the number 0 (48 in ASCII code)
+``` 
+
+<hr/>
+
+### binaray I/O
+
+#### size_t fread(&emsp; &emsp; void* ptr, size_t, size_t nmemb, FILE* fp); 
+
+#### size_t fwrite(const void* ptr, size_t, size_t nmemb, FILE* fp); 
+
+``` 
+fwrite(&mystruct, sizeof(struct mystruct), 1, fp); 
+fread(&twostructs, sizeof(struct mystruct), 2, fp); // get 2*sizeof(mystruct) bytes and store the two items at ptr 
+``` 
+
+### format I/O
+
+```
+
+scanf("%[^\n]", tmp); 
+printf("%0X "/%02hhX"/ \n", *p, *p); 
+// %[필드너비][길이 수정자][변환형식]
+
+``` 
+# Ⅴ. process
+
+function(2): <unistd.h><br/>
+function(3): <setjmp.h>
+
+## EXIT
+
+##### <stdlib.h>
+
+### void exit(int status); 
+
+##### <unistd.h>
+
+### void _exit(int status); 
+
+``` 
+exit(0); // print the buffer and termination (std IO buffer flushed) 
+// 0 
+_exit(0); // print nothing and forcibly termination (std IO buffer not flushed) 
+```
+
+<hr/>
+
+## GOTO
+
+##### <setjmp.h>
+
+env should be a global var ⊃ register var, local var
+
+### int setjmp(jump_buf env); 
+
+called by itself : return 0
+called by longjmp : return !0
+
+### void longjmp(jump_buf env, int val); 
+
+``` 
+if(setjmp(env) != 0){
+    // : when called by longjmp (return value == 1(the value of "val" param from longjmp))
+    // register var, local var would be same but volatile var would be changed.
+}
+longjmp(env, 1);
+```
+
+<hr/>
+
+## RETURN PID
+
+##### <unistd.h>
+
+##### <sys/types.h>
+
+``` 
+process_id = getpid();
+parent_process_id = getppid();
+```
+
+``` 
+real_user_id = getuid();
+effective_user_id = geteuid(); 
+```
+
+``` 
+real_group_id = getgid();
+effective_group_id = getegid(); 
+```
+
+<hr/>
+
+## CREATE CHILD PROCESS
+
+##### <unistd.h>
+
+### pid_t fork(void); 
+
+return
+
+* 0: child process
+* >0(pid of its child) : parent process
+* -1: error
+
+``` 
+write(STDOUT_FILENO, ~, ~); // 1
+// no buffering
+printf("~");                // 2
+// can be buffered unless stdout
+
+if((pid = fork()) < 0){ // 3
+    // error            
+}
+else if(pid == 0){      
+    // child process    // 4
+}
+else {
+    // parent process   // 5
+}
+printf("~");            // 6
+exit(0);                // 7
+
+// stdout&setbuf : 1->2->3->4->6->7-> 3->5->6->7
+// others : 1->2->3->4->6->7-> 3->5->6&2->7
+```
+
+<hr/>
