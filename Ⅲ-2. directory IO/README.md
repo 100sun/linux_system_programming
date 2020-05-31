@@ -12,6 +12,8 @@ d_name, d_ino
 
 ##### <sys/types.h>
 
+##### <dirent.h>
+
 ### DIR* opendir(const char* name); 
 
 ### struct dirent* readdir(DIR *dp); 

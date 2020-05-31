@@ -19,11 +19,11 @@ int main(int argc, char *argv[])
     struct timeval begin_t, end_t;
     gettimeofday(&begin_t, NULL);
 
-    // if (link(argv[1], argv[2]) < 0)
-    // {
-    //     fprintf(stderr, "link error\n");
-    //     exit(1);
-    // }
+    if (link(argv[1], argv[2]) < 0)
+    {
+        fprintf(stderr, "link error\n");
+        exit(1);
+    }
     if (unlink(argv[1]) < 0)
     {
         fprintf(stderr, "link error\n");
@@ -47,5 +47,5 @@ void ssu_runtime(struct timeval *begin_t, struct timeval *end_t)
     }
 
     end_t->tv_usec -= begin_t->tv_usec;
-    printf("Runtime: %ld:%01ld(sec:usec)\n", end_t->tv_sec, end_t->tv_usec);
+    printf("Runtime: %ld:%02ld(sec:usec)\n", end_t->tv_sec, end_t->tv_usec);
 }

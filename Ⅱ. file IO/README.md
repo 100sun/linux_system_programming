@@ -13,7 +13,7 @@ filedes
 &emsp; &emsp; off_t&emsp; &emsp; &emsp; &emsp; <b>st_size</b><br/>
 &emsp; &emsp; mode_t&emsp; &emsp; &emsp; <b>st_mode</b><br/>
 
-#### 2. <fcntl.h>
+#### 3. <fcntl.h>
 
 oflag, whence
 
@@ -23,7 +23,7 @@ oflag, whence
 
 ### int open(const char* pathname, int oflag, mode_t mode); 
 
-0, 1, 2
+1, 2, 3
 
 ### int close(int filedes); 
 
@@ -31,7 +31,7 @@ oflag, whence
 
 ### int creat(const char* pathname, mode_t mode); 
 
-0, 1, 2
+1, 2, 3
 
 ``` 
 fd = open(filename, O_RDONLY);

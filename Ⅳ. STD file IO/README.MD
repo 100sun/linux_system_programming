@@ -75,6 +75,19 @@ fclose(fp);
 
 #### int feof(FILE* fp); 
 
+``` 
+while(!feof(fp)){
+
+    fputc(c, stdout);
+
+    if(ferror(fp)){
+        clearerr(fp);
+    }
+
+    c = fgetc(fp);
+}
+```
+
 <hr/><hr/>
 
 ### char I/O 
@@ -102,18 +115,9 @@ push c back to stream
 print c to stdout
 
 ``` 
-while(!feof(fp)){
-
-    fputc(c, stdout);
-
-    if(ferror(fp)){
-        clearerr(fp);
-    }
-
-    c = fgetc(fp);
-}
-```
-
+while((character = fgetc(fp)) != EOF && isdigit(character)) // => number
+    number = 10 * number + character - 48; // abstract the number 0 (48 in ASCII code)
+``` 
 <hr/>
 
 ### char* IO 
@@ -145,11 +149,6 @@ while(!fgets(buf, BUF_SIZE, stdin) != NULL) // get \n
     if(fputs(buf, stdout) == EOF) // \n would be print 
         exit(1);
 ```
-
-``` 
-while((character = fgetc(fp)) != EOF && isdigit(character)) // => number
-    number = 10 * number + character - 48; // abstract the number 0 (48 in ASCII code)
-``` 
 
 <hr/>
 
